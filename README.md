@@ -15,6 +15,12 @@ Expected format of incoming webhooks:
 For example, the full URL for a `anlage` Webhook would be:
 `https://example.org/my_secret_key/anlage/0O2JR73BDQ0M/9P4HEOWEVOX/F9NMD2SB3HA2ZXNBGIHAASHD37`
 
+*Body*:
+
+```json
+{"prop_which_changed":"new contents","id":"1234","modified_on":"2022-05-05 20:20:15","modified_by":123}
+```
+
 ## Deployment
 
 Deploy this as a Docker image.
