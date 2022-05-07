@@ -21,9 +21,9 @@ import (
 
 // common to all webhook JSON bodies Directus sends
 type commonFields struct {
-	ID         string `json:"id"`
-	ModifiedBy int    `json:"modified_by"`
-	ModifiedOn string `json:"modified_on"`
+	ID         interface{} `json:"id"`
+	ModifiedBy int         `json:"modified_by"`
+	ModifiedOn string      `json:"modified_on"`
 }
 
 // parsed incoming webhook from Directus
@@ -82,18 +82,18 @@ func buildOutgoing(in incoming) ([]byte, error) {
 	modifiedBy := fmt.Sprintf("%s/admin/#/_/users/%d", directusBaseURL, in.common.ModifiedBy)
 	modifiedObj := fmt.Sprintf("%s/admin/#/_/collections/%s/%s", directusBaseURL, in.objectTypeName, in.common.ID)
 
-	text := fmt.Sprintf("<%s|Der User mit ID %d> hat der/die/das <%s|%s mit ID %s> editiert.",
+	text := fmt.Sprintf("<%s|Der User mit ID %d> hat der/die/das <%s|%s mit ID %s> erstellt/editiert/gelöscht.",
 		modifiedBy,
 		in.common.ModifiedBy,
 		escapeSlackText(modifiedObj),
 		escapeSlackText(cases.Title(language.Dutch).String(in.objectTypeName)),
-		escapeSlackText(in.common.ID))
+		escapeSlackText(fmt.Sprint(in.common.ID)))
 
 	text += fmt.Sprintf("\n\nLinks zum copy-pasten:\n`%s`\n`%s`\n", modifiedBy, escapeSlackText(modifiedObj))
 
 	text += "\n\n*Änderungen*:\n"
 	for key, val := range in.changes {
-		text += fmt.Sprintf("- _%s_: %s\n", escapeSlackText(key), escapeSlackText(fmt.Sprint(val)))
+		text += fmt.Sprintf("- _%s_: %s\n", escapeSlackText(key), fmt.Sprint(val))
 	}
 
 	body := map[string]string{
