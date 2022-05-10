@@ -19,4 +19,5 @@ FROM gcr.io/distroless/base-debian10 AS runner
 WORKDIR /
 COPY --from=builder --chown=nonroot:nonroot /app/server /server
 USER nonroot:nonroot
-ENTRYPOINT ["/server"]
+CMD ["/server"]
+EXPOSE 8080
