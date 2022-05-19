@@ -80,7 +80,7 @@ func escapeSlackText(s string) string {
 
 func buildOutgoing(in incoming) ([]byte, error) {
 	modifiedBy := fmt.Sprintf("%s/admin/#/_/users/%d", directusBaseURL, in.common.ModifiedBy)
-	modifiedObj := fmt.Sprintf("%s/admin/#/_/collections/%s/%s", directusBaseURL, in.objectTypeName, in.common.ID)
+	modifiedObj := fmt.Sprintf("%s/admin/#/_/collections/%s/%v", directusBaseURL, in.objectTypeName, in.common.ID)
 
 	text := fmt.Sprintf("<%s|Der User mit ID %d> hat der/die/das <%s|%s mit ID %s> erstellt/editiert/gelöscht.",
 		modifiedBy,
